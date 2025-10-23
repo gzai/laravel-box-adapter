@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.0/phpunit.xsd"
+    bootstrap="vendor/autoload.php"
+    colors="true"
+    failOnWarning="true"
+    failOnRisky="true"
+    stopOnFailure="false"
+    executionOrder="default"
+    cacheDirectory=".phpunit.cache"
+>
+    <testsuites>
+        <testsuite name="Package Test Suite">
+            <directory suffix="Test.php">./tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <source>
+        <include>
+            <directory suffix=".php">./src</directory>
+        </include>
+    </source>
+
+    <php>
+        <env name="APP_ENV" value="testing"/>
+        <env name="CACHE_DRIVER" value="array"/>
+        <env name="SESSION_DRIVER" value="array"/>
+        <env name="QUEUE_CONNECTION" value="sync"/>
+        <env name="DB_CONNECTION" value="sqlite"/>
+        <env name="DB_DATABASE" value=":memory:"/>
+        <env name="BOX_ACCESS_TOKEN" value="wMPcIYJXUQRRtKfy9K3opi6k2J0iC8cS"/>
+        <env name="BOX_REFRESH_TOKEN" value="DDY1RfbUTZW2MHk66gBdJJVHkThPziM45cAip9bD7USWIxHNow6SoYvFefG6hV9Y"/>
+        <env name="BOX_EXPIRES_IN" value="4154"/>
+        <env name="BOX_FOLDER_PARENT_ID" value="347134386401"/>
+    </php>
+</phpunit>

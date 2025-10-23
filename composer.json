@@ -1,0 +1,34 @@
+{
+    "name": "gzai/laravel-box-adapter",
+    "description": "Box.com filesystem adapter with Filament integration",
+    "type": "library",
+    "license": "MIT",
+    "version": "1.0.0",
+    "autoload": {
+        "psr-4": {
+            "Gzai\\LaravelBoxAdapter\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Gzai\\LaravelBoxAdapter\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Gzai\\LaravelBoxAdapter\\BoxAdapterServiceProvider"
+            ]
+        }
+    },
+    "require": {
+        "php": "^8.2",
+        "laravel/framework": "^11.0",
+        "league/flysystem": "^3.0",
+        "ramsey/uuid": "^4.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^9.15",
+        "phpunit/phpunit": "^11.0"
+    }
+}
