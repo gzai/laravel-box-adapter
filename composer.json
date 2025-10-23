@@ -4,6 +4,15 @@
     "type": "library",
     "license": "MIT",
     "version": "1.0.0",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "authors": [
+        {
+            "name": "Dimas Galih",
+            "email": "gzaikun@gmail.com"
+        }
+    ],
+    "keywords": ["Laravel", "Box", "Adapter"],
     "autoload": {
         "psr-4": {
             "Gzai\\LaravelBoxAdapter\\": "src/"
@@ -23,7 +32,8 @@
     },
     "require": {
         "php": "^8.2",
-        "laravel/framework": "^11.0",
+        "illuminate/support": "^11.0",
+        "guzzlehttp/guzzle": "7.x",
         "league/flysystem": "^3.0",
         "ramsey/uuid": "^4.0"
     },
