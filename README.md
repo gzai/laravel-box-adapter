@@ -31,7 +31,8 @@ Steps:
 # Requirements
 
 - PHP: ``^8.2``
-- Laravel: ``^11.0``
+- Illuminate support: ``^11.0``
+- Guzzlehttp guzzle: ``^7.0``
 - League flysystem: ``^3.0``
 - Ramsey uuid: ``^4.0``
 
@@ -127,7 +128,7 @@ Please adjust with your client id, client secret and redirect url.
 If your config box ``routes_enabled`` is ``true``, you will get 3 additional routes: 
 
 ```bash
-$ php artisan route:list
+php artisan route:list
 ```
 
 Result:
@@ -276,6 +277,8 @@ https://developer.box.com/guides/search/indexing/
 
 
 ## File Examples
+
+Add Box service
 
 ```php
 use Gzai\LaravelBoxAdapter\Facades\Box;
@@ -456,14 +459,27 @@ Route::get('box/file/download/force', function() {
 Route::get('box/file/download/directory', function() {
 	$fileId = 000000000000; // you can change to specific file id box
 
-	// download file in box
-	return Box::downloadFile($fileId);
+	// download file in box and save it to the directory according to box config download_folder
+	return Box::downloadFile($fileId, true);
+
+	// or 
+
+	$folderName = 'new_folder';
+
+	// download file in box and save it to the directory according to custom folder name
+	return Box::downloadFile($fileId, true, $folderNmae);
 });
 ```
 
 ## Box Filesystem
 
 Box Adapter can also be used in Laravel Storage
+
+Add Storage
+
+```php
+use Illuminate\Support\Facades\Storage;
+```
 
 ### Check Directory Exists
 
@@ -640,12 +656,24 @@ protected function mutateFormDataBeforeCreate(array $data): array
 or you can update these IDs before saving your data to the database.
 
 ```php
+use Illuminate\Database\Eloquent\Model;
+```
+
+```php
 protected function handleRecordUpdate(Model $record, array $data): Model
 {
-	$data['parent_id'] = session()->has('parentIdBox') && !empty(session('parentIdBox')) ? session('parentIdBox') : null;
-    $data['file_id'] = session()->has('fileIdBox') && !empty(session('fileIdBox')) ? session('fileIdBox') : null;
+	// you can delete old file in box
+	if ( session()->has('fileIdBox') && !empty(session('fileIdBox')) && $data['attachment'] != null ) {
+        Box::deleteFile($record->file_id);
+    }
 
-    return $data;
+    $data['parent_folder_id'] = session()->has('parentIdBox') && !empty(session('parentIdBox')) ? session('parentIdBox') : $record->parent_folder_id;
+    $data['file_id'] = session()->has('fileIdBox') && !empty(session('fileIdBox')) ? session('fileIdBox') : $record->file_id;
+    $data['attachment'] = ( $data['attachment'] != null ) ? $data['attachment'] : $record->attachment;
+
+    $record->update($data);
+
+    return $record;
 }
 ```
 
