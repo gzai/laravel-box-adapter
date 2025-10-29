@@ -649,6 +649,9 @@ protected function mutateFormDataBeforeCreate(array $data): array
     $data['parent_id'] = session()->has('parentIdBox') && !empty(session('parentIdBox')) ? session('parentIdBox') : null;
     $data['file_id'] = session()->has('fileIdBox') && !empty(session('fileIdBox')) ? session('fileIdBox') : null;
 
+	// deleting the parentIdBox & fileIdBox sessions
+	session()->forget(['parentIdBox', 'fileIdBox']);
+
     return $data;
 }
 ```
@@ -670,6 +673,9 @@ protected function handleRecordUpdate(Model $record, array $data): Model
     $data['parent_folder_id'] = session()->has('parentIdBox') && !empty(session('parentIdBox')) ? session('parentIdBox') : $record->parent_folder_id;
     $data['file_id'] = session()->has('fileIdBox') && !empty(session('fileIdBox')) ? session('fileIdBox') : $record->file_id;
     $data['attachment'] = ( $data['attachment'] != null ) ? $data['attachment'] : $record->attachment;
+
+	// deleting the parentIdBox & fileIdBox sessions
+	session()->forget(['parentIdBox', 'fileIdBox']);
 
     $record->update($data);
 
